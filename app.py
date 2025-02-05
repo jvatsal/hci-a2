@@ -1,20 +1,33 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from datetime import datetime
 import os
 import csv
 from flask_cors import CORS
-app = Flask(__name__)
+
+app = Flask(__name__, static_folder='static')  # Set the static folder for your HTML, CSS, and JS files
 CORS(app)
 
 # Paths to real and fake image directories
 REAL_DIR = './real_fake_images/real'
 FAKE_DIR = './real_fake_images/fake'
 
+@app.route('/')
+def serve_index():
+    """
+    Serve the index.html file.
+    """
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """
+    Serve static files (HTML, CSS, JS).
+    """
+    return send_from_directory(app.static_folder, filename)
+
+# Add the other routes you already have
 @app.route('/get-images', methods=['GET'])
 def get_images():
-    """
-    Return a list of image filenames from the real and fake directories.
-    """
     try:
         real_images = os.listdir(REAL_DIR)
         fake_images = os.listdir(FAKE_DIR)
@@ -27,9 +40,6 @@ def get_images():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    """
-    Save form submission data to a CSV file, including both selected and non-selected images.
-    """
     data = request.get_json()
     ai_selection = data.get('aiSelection')  # 'img1' or 'img2'
     quality = data.get('quality')  # Quality rating
@@ -47,7 +57,6 @@ def submit():
 
     return jsonify({'status': 'success'}), 200
 
-
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000)) 
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
