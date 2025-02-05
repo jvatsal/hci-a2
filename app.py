@@ -8,7 +8,7 @@ app = Flask(__name__, static_folder='static')  # Set static folder for HTML, CSS
 CORS(app)
 
 # PostgreSQL database connection from Render
-DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://annotations_mhjf_user:ePceyPCY8SNNKVfVwtkP03fgf0QDXL66@dpg-cuhtnoggph6c73boa1og-a.ohio-postgres.render.com/annotations_mhjf')
+DATABASE_URL = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
