@@ -25,6 +25,14 @@ def serve_static(filename):
     """
     return send_from_directory(app.static_folder, filename)
 
+@app.route('/real_fake_images/<folder>/<filename>')
+def serve_images(folder, filename):
+    """
+    Serve images from the real_fake_images folder.
+    """
+    return send_from_directory(f'./real_fake_images/{folder}', filename)
+
+
 # Add the other routes you already have
 @app.route('/get-images', methods=['GET'])
 def get_images():

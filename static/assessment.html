@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Annotation Task - Assessment</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/static/styles.css"/>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -135,7 +135,7 @@
         document.addEventListener('DOMContentLoaded', async function () {
             try {
                 // Fetch the image filenames from the backend
-                const response = await fetch('http://127.0.0.1:5000/get-images');
+                const response = await fetch('/get-images');
                 const data = await response.json();
 
                 const realImages = data.real_images;
@@ -150,11 +150,11 @@
 
                 // Randomize which image is in slot 1 and which is in slot 2
                 if (Math.random() > 0.5) {
-                    img1.src = './real_fake_images/real/' + randomRealImage;
-                    img2.src = './real_fake_images/fake/' + randomFakeImage;
+                    img1.src = `/real_fake_images/real/${randomRealImage}`;
+                    img2.src = `/real_fake_images/fake/${randomFakeImage}`;
                 } else {
-                    img1.src = './real_fake_images/fake/' + randomFakeImage;
-                    img2.src = './real_fake_images/real/' + randomRealImage;
+                    img2.src = `/real_fake_images/real/${randomRealImage}`;
+                    img1.src = `/real_fake_images/fake/${randomFakeImage}`;
                 }
             } catch (error) {
                 console.error('Error loading images:', error);
@@ -198,7 +198,7 @@
 
             try {
                 // Submit data to the backend
-                const response = await fetch('http://127.0.0.1:5000/submit', {
+                const response = await fetch('/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
