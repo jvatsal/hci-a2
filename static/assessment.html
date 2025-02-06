@@ -15,7 +15,7 @@
         .separator {
             border: none;
             border-top: 2px solid #ccc;
-            margin: 20px 0;
+            margin: 30px 0;
         }
         h1 {
             text-align: center;
@@ -46,12 +46,7 @@
             margin-bottom: 10px;
             display: block;
         }
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .quality-scale {
+        .radio-group, .quality-scale {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -87,47 +82,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Image Annotation</h1>
-        <div class="images">
-            <div>
-                <img id="img1" src="" alt="Image 1">
-                <div class="image-label">Image 1</div>
-            </div>
-            <div>
-                <img id="img2" src="" alt="Image 2">
-                <div class="image-label">Image 2</div>
-            </div>
-        </div>
-        <hr class="separator">
+        <h1>Image Annotation Task</h1>
         <form id="annotationForm">
-            <fieldset>
-                <legend>Which image is AI-generated?</legend>
-                <div class="radio-group">
-                    <label><input type="radio" name="aiSelection" value="img1" required> Image 1</label>
-                    <label><input type="radio" name="aiSelection" value="img2"> Image 2</label>
-                </div>
-            </fieldset>
-            
-            <fieldset class="quality-scale">
-                <legend>Rate the quality of the selected AI-generated image:</legend>
-                <div class="quality-labels">
-                    <span>Obviously AI-generated</span>
-                    <span>Close to Real</span>
-                </div>
-                <div class="quality-buttons">
-                    <button type="button" data-quality="1">1</button>
-                    <button type="button" data-quality="2">2</button>
-                    <button type="button" data-quality="3">3</button>
-                    <button type="button" data-quality="4">4</button>
-                    <button type="button" data-quality="5">5</button>
-                </div>
-                <input type="hidden" name="quality" id="qualityValue" required>
-            </fieldset>
-            
-            <button type="submit">Submit</button>
+            <div id="annotations"></div> <!-- This will hold the 5 annotation sets -->
+
+            <button type="submit">Submit All</button>
         </form>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             try {
@@ -137,64 +99,101 @@
                 const realImages = data.real_images;
                 const fakeImages = data.fake_images;
 
-                const randomRealImage = realImages[Math.floor(Math.random() * realImages.length)];
-                const randomFakeImage = fakeImages[Math.floor(Math.random() * fakeImages.length)];
+                const annotationContainer = document.getElementById('annotations');
 
-                const img1 = document.getElementById('img1');
-                const img2 = document.getElementById('img2');
+                for (let i = 1; i <= 5; i++) {
+                    // Randomly select images for this annotation set
+                    const realImage = realImages[Math.floor(Math.random() * realImages.length)];
+                    const fakeImage = fakeImages[Math.floor(Math.random() * fakeImages.length)];
+                    
+                    // Randomize which image goes on the left/right
+                    const [image1, image2] = Math.random() > 0.5 ? [realImage, fakeImage] : [fakeImage, realImage];
 
-                if (Math.random() > 0.5) {
-                    img1.src = `/real_fake_images/real/${randomRealImage}`;
-                    img2.src = `/real_fake_images/fake/${randomFakeImage}`;
-                } else {
-                    img2.src = `/real_fake_images/real/${randomRealImage}`;
-                    img1.src = `/real_fake_images/fake/${randomFakeImage}`;
+                    const annotationHTML = `
+                        <div class="annotation-set">
+                            <div class="images">
+                                <div>
+                                    <img id="img1-${i}" src="/real_fake_images/real/${image1}" alt="Image 1">
+                                    <div class="image-label">Image 1</div>
+                                </div>
+                                <div>
+                                    <img id="img2-${i}" src="/real_fake_images/fake/${image2}" alt="Image 2">
+                                    <div class="image-label">Image 2</div>
+                                </div>
+                            </div>
+                            <hr class="separator">
+                            <fieldset>
+                                <legend>Which image is AI-generated?</legend>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="aiSelection-${i}" value="img1" required> Image 1</label>
+                                    <label><input type="radio" name="aiSelection-${i}" value="img2"> Image 2</label>
+                                </div>
+                            </fieldset>
+                            
+                            <fieldset class="quality-scale">
+                                <legend>Rate the quality of the selected AI-generated image:</legend>
+                                <div class="quality-labels">
+                                    <span>Obviously AI-generated</span>
+                                    <span>Close to Real</span>
+                                </div>
+                                <div class="quality-buttons">
+                                    <button type="button" data-quality="1" data-set="${i}">1</button>
+                                    <button type="button" data-quality="2" data-set="${i}">2</button>
+                                    <button type="button" data-quality="3" data-set="${i}">3</button>
+                                    <button type="button" data-quality="4" data-set="${i}">4</button>
+                                    <button type="button" data-quality="5" data-set="${i}">5</button>
+                                </div>
+                                <input type="hidden" name="quality-${i}" id="qualityValue-${i}" required>
+                            </fieldset>
+                        </div>
+                    `;
+                    annotationContainer.innerHTML += annotationHTML;
                 }
+
+                // Add event listeners to all quality rating buttons
+                document.querySelectorAll('.quality-buttons button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const setId = this.getAttribute('data-set');
+                        document.querySelectorAll(`[data-set="${setId}"]`).forEach(btn => btn.classList.remove('selected'));
+                        this.classList.add('selected');
+                        document.getElementById(`qualityValue-${setId}`).value = this.getAttribute('data-quality');
+                    });
+                });
+
             } catch (error) {
                 console.error('Error loading images:', error);
                 alert('Failed to load images. Please try again later.');
             }
         });
 
-        // Handle quality rating button selection
-        const qualityButtons = document.querySelectorAll('.quality-buttons button');
-        const qualityInput = document.getElementById('qualityValue');
-
-        qualityButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                // Remove "selected" class from all buttons
-                qualityButtons.forEach(btn => btn.classList.remove('selected'));
-                // Add "selected" class to the clicked button
-                this.classList.add('selected');
-                // Update the hidden input with the selected quality value
-                qualityInput.value = this.getAttribute('data-quality');
-            });
-        });
-
         // Handle form submission
         document.getElementById('annotationForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            // Ensure a quality rating has been selected
-            if (!qualityInput.value) {
-                alert('Please rate the quality of the selected image.');
-                return;
-            }
+            // Collect data for all 5 annotation sets
+            const formData = {};
+            for (let i = 1; i <= 5; i++) {
+                const selection = document.querySelector(`input[name="aiSelection-${i}"]:checked`);
+                const quality = document.getElementById(`qualityValue-${i}`).value;
 
-            // Collect form data
-            const formData = new FormData(event.target);
-            const data = {
-                aiSelection: formData.get('aiSelection'), // 'img1' or 'img2'
-                quality: formData.get('quality'), // Quality rating
-                image1: document.getElementById('img1').src.split('/').pop(), // Extract file name from src
-                image2: document.getElementById('img2').src.split('/').pop()  // Extract file name from src
-            };
+                if (!selection || !quality) {
+                    alert(`Please complete annotation set ${i} before submitting.`);
+                    return;
+                }
+
+                formData[`annotation-${i}`] = {
+                    aiSelection: selection.value,
+                    quality: quality,
+                    image1: document.getElementById(`img1-${i}`).src.split('/').pop(),
+                    image2: document.getElementById(`img2-${i}`).src.split('/').pop()
+                };
+            }
 
             try {
                 const response = await fetch('/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(formData)
                 });
 
                 if (response.ok) {
