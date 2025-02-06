@@ -49,24 +49,31 @@ def get_images():
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.get_json()
-    ai_selection = data.get('aiSelection')
-    quality = data.get('quality')
-    image1 = data.get('image1')
-    image2 = data.get('image2')
+    annotations = data.get('annotations')
+    if not annotations:
+        return jsonify({'error': 'No annotations provided'}), 400
+    
+    for ann in annotations:
+        ai_selection = ann.get('aiSelection')
+        quality = ann.get('quality')
+        image1 = ann.get('image1')
+        image2 = ann.get('image2')
 
-    non_selected_image = image1 if ai_selection == 'img2' else image2
+        # Determine the non-selected image
+        non_selected_image = image1 if ai_selection == 'img2' else image2
 
-    response = Response(
-        image1=image1,
-        image2=image2,
-        ai_selection=ai_selection,
-        non_selected_image=non_selected_image,
-        quality=int(quality)
-    )
-    db.session.add(response)
+        response = Response(
+            image1=image1,
+            image2=image2,
+            ai_selection=ai_selection,
+            non_selected_image=non_selected_image,
+            quality=int(quality)
+        )
+        db.session.add(response)
+
     db.session.commit()
-
     return jsonify({'status': 'success'}), 200
+
 
 @app.route('/responses', methods=['GET'])
 def get_responses():
