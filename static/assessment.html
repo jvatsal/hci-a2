@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Annotation Task - Assessment</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Verdana, sans-serif;
             margin: 20px;
         }
         .container {
@@ -130,24 +129,20 @@
     </div>
     
     <script>
-        // Dynamically load random images
         document.addEventListener('DOMContentLoaded', async function () {
             try {
-                // Fetch the image filenames from the backend
                 const response = await fetch('/get-images');
                 const data = await response.json();
 
                 const realImages = data.real_images;
                 const fakeImages = data.fake_images;
 
-                // Randomly select one image from each list
                 const randomRealImage = realImages[Math.floor(Math.random() * realImages.length)];
                 const randomFakeImage = fakeImages[Math.floor(Math.random() * fakeImages.length)];
 
                 const img1 = document.getElementById('img1');
                 const img2 = document.getElementById('img2');
 
-                // Randomize which image is in slot 1 and which is in slot 2
                 if (Math.random() > 0.5) {
                     img1.src = `/real_fake_images/real/${randomRealImage}`;
                     img2.src = `/real_fake_images/fake/${randomFakeImage}`;
@@ -196,7 +191,6 @@
             };
 
             try {
-                // Submit data to the backend
                 const response = await fetch('/submit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -204,7 +198,6 @@
                 });
 
                 if (response.ok) {
-                    // Redirect to thank you page
                     window.location.href = 'thanks.html';
                 } else {
                     alert('Submission failed. Please try again.');

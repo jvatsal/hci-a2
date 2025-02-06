@@ -4,17 +4,15 @@ from datetime import datetime
 import os
 from flask_cors import CORS
 
-app = Flask(__name__, static_folder='static')  # Set static folder for HTML, CSS, JS
+app = Flask(__name__, static_folder='static')
 CORS(app)
 
-# PostgreSQL database connection from Render
 DATABASE_URL = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Define the database model (replaces CSV storage)
 class Response(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
@@ -24,26 +22,21 @@ class Response(db.Model):
     non_selected_image = db.Column(db.String(255), nullable=False)
     quality = db.Column(db.Integer, nullable=False)
 
-# Create the database tables if they don't exist
 with app.app_context():
     db.create_all()
 
-# Serve the homepage
 @app.route('/')
 def serve_index():
     return send_from_directory(app.static_folder, 'index.html')
 
-# Serve static files (HTML, CSS, JS)
 @app.route('/<path:filename>')
 def serve_static(filename):
     return send_from_directory(app.static_folder, filename)
 
-# Serve images from real_fake_images folder
 @app.route('/real_fake_images/<folder>/<filename>')
 def serve_images(folder, filename):
     return send_from_directory(f'./real_fake_images/{folder}', filename)
 
-# Return a list of images from the real and fake directories
 @app.route('/get-images', methods=['GET'])
 def get_images():
     try:
@@ -53,19 +46,16 @@ def get_images():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Store the form submission in the database instead of CSV
 @app.route('/submit', methods=['POST'])
 def submit():
     data = request.get_json()
-    ai_selection = data.get('aiSelection')  # 'img1' or 'img2'
-    quality = data.get('quality')  # Quality rating
-    image1 = data.get('image1')  # Image 1 file name
-    image2 = data.get('image2')  # Image 2 file name
+    ai_selection = data.get('aiSelection')
+    quality = data.get('quality')
+    image1 = data.get('image1')
+    image2 = data.get('image2')
 
-    # Determine the non-selected image
     non_selected_image = image1 if ai_selection == 'img2' else image2
 
-    # Save response to PostgreSQL
     response = Response(
         image1=image1,
         image2=image2,
@@ -78,7 +68,6 @@ def submit():
 
     return jsonify({'status': 'success'}), 200
 
-# Fetch stored responses from PostgreSQL (view responses)
 @app.route('/responses', methods=['GET'])
 def get_responses():
     responses = Response.query.all()
@@ -94,7 +83,6 @@ def get_responses():
     
     return jsonify(result), 200
 
-# Start the Flask app
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)

@@ -3,12 +3,47 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Annotation Task - Introduction</title>
+    <style>
+        body {
+            font-family: Verdana;
+            background-color: #aaaaaa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 50px;
+            border-radius: 20px;
+            border-color: black;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        button {
+            background-color: #e27500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #fd9423;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to the Image Annotation Task!</h1>
-        <p>You will be presented with two images. Your task is to select which image you think is AI-generated. For whatever image you select, rate its quality on a scale of 1 to 5.</p>
+        <p>You will be presented with two images. Your task is to select which image you think is AI-generated. For the image you select, rate its quality on a scale of 1 to 5 based on how realistic it appears to you.</p>
         <button onclick="window.location.href='assessment.html'">Next</button>
     </div>
 </body>
