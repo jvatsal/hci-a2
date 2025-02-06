@@ -1,211 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Verdana, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .separator {
-            border: none;
-            border-top: 2px solid #ccc;
-            margin: 30px 0;
-        }
-        h1 {
-            text-align: center;
-        }
-        .images {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-        }
-        .images img {
-            width: 250px;
-            height: auto;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-        }
-        .image-label {
-            text-align: center;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-        fieldset {
-            border: none;
-            margin-bottom: 20px;
-        }
-        fieldset legend {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .radio-group, .quality-scale {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .quality-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: #666;
-        }
-        .quality-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        .quality-buttons button {
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            flex: 1;
-            margin: 0 5px;
-        }
-        .quality-buttons button.selected {
-            background-color: #007BFF;
-            color: white;
-        }
-        .quality-buttons button:hover {
-            background-color: #e0e0e0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Annotation Task</title>
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .separator {
+      border: none;
+      border-top: 2px solid #ccc;
+      margin: 40px 0;
+    }
+    h1 {
+      text-align: center;
+    }
+    .images {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    .images img {
+      width: 250px;
+      height: auto;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+    .image-label {
+      text-align: center;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+    fieldset {
+      border: none;
+      margin-bottom: 20px;
+    }
+    fieldset legend {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .quality-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .quality-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+    .quality-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    .quality-buttons button {
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      flex: 1;
+      margin: 0 5px;
+    }
+    .quality-buttons button.selected {
+      background-color: #007BFF;
+      color: white;
+    }
+    .quality-buttons button:hover {
+      background-color: #e0e0e0;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Image Annotation Task</h1>
-        <form id="annotationForm">
-            <div id="annotations"></div> <!-- This will hold the 5 annotation sets -->
+  <div class="container">
+    <h1>Image Annotation</h1>
+    <form id="annotationForm">
+      <!-- Repeat the annotation block five times -->
+      
+      <!-- Annotation Task 1 -->
+      <div class="annotation-task" data-index="1">
+        <div class="images">
+          <div>
+            <img id="img1_1" src="" alt="Image 1" />
+            <div class="image-label">Image 1</div>
+          </div>
+          <div>
+            <img id="img2_1" src="" alt="Image 2" />
+            <div class="image-label">Image 2</div>
+          </div>
+        </div>
+        <fieldset>
+          <legend>Which image is AI-generated?</legend>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="aiSelection_1" value="img1" required /> Image 1
+            </label>
+            <label>
+              <input type="radio" name="aiSelection_1" value="img2" /> Image 2
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="quality-scale">
+          <legend>Rate the quality of the selected AI-generated image:</legend>
+          <div class="quality-labels">
+            <span>Obviously AI-generated</span>
+            <span>Close to Real</span>
+          </div>
+          <div class="quality-buttons">
+            <button type="button" data-quality="1">1</button>
+            <button type="button" data-quality="2">2</button>
+            <button type="button" data-quality="3">3</button>
+            <button type="button" data-quality="4">4</button>
+            <button type="button" data-quality="5">5</button>
+          </div>
+          <input type="hidden" name="quality_1" required />
+        </fieldset>
+      </div>
+      
+      <hr class="separator" />
 
-            <button type="submit">Submit All</button>
-        </form>
-    </div>
+      <!-- Annotation Task 2 -->
+      <div class="annotation-task" data-index="2">
+        <div class="images">
+          <div>
+            <img id="img1_2" src="" alt="Image 1" />
+            <div class="image-label">Image 1</div>
+          </div>
+          <div>
+            <img id="img2_2" src="" alt="Image 2" />
+            <div class="image-label">Image 2</div>
+          </div>
+        </div>
+        <fieldset>
+          <legend>Which image is AI-generated?</legend>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="aiSelection_2" value="img1" required /> Image 1
+            </label>
+            <label>
+              <input type="radio" name="aiSelection_2" value="img2" /> Image 2
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="quality-scale">
+          <legend>Rate the quality of the selected AI-generated image:</legend>
+          <div class="quality-labels">
+            <span>Obviously AI-generated</span>
+            <span>Close to Real</span>
+          </div>
+          <div class="quality-buttons">
+            <button type="button" data-quality="1">1</button>
+            <button type="button" data-quality="2">2</button>
+            <button type="button" data-quality="3">3</button>
+            <button type="button" data-quality="4">4</button>
+            <button type="button" data-quality="5">5</button>
+          </div>
+          <input type="hidden" name="quality_2" required />
+        </fieldset>
+      </div>
+      
+      <hr class="separator" />
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async function () {
-            try {
-                const response = await fetch('/get-images');
-                const data = await response.json();
+      <!-- Annotation Task 3 -->
+      <div class="annotation-task" data-index="3">
+        <div class="images">
+          <div>
+            <img id="img1_3" src="" alt="Image 1" />
+            <div class="image-label">Image 1</div>
+          </div>
+          <div>
+            <img id="img2_3" src="" alt="Image 2" />
+            <div class="image-label">Image 2</div>
+          </div>
+        </div>
+        <fieldset>
+          <legend>Which image is AI-generated?</legend>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="aiSelection_3" value="img1" required /> Image 1
+            </label>
+            <label>
+              <input type="radio" name="aiSelection_3" value="img2" /> Image 2
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="quality-scale">
+          <legend>Rate the quality of the selected AI-generated image:</legend>
+          <div class="quality-labels">
+            <span>Obviously AI-generated</span>
+            <span>Close to Real</span>
+          </div>
+          <div class="quality-buttons">
+            <button type="button" data-quality="1">1</button>
+            <button type="button" data-quality="2">2</button>
+            <button type="button" data-quality="3">3</button>
+            <button type="button" data-quality="4">4</button>
+            <button type="button" data-quality="5">5</button>
+          </div>
+          <input type="hidden" name="quality_3" required />
+        </fieldset>
+      </div>
+      
+      <hr class="separator" />
 
-                const realImages = data.real_images;
-                const fakeImages = data.fake_images;
+      <!-- Annotation Task 4 -->
+      <div class="annotation-task" data-index="4">
+        <div class="images">
+          <div>
+            <img id="img1_4" src="" alt="Image 1" />
+            <div class="image-label">Image 1</div>
+          </div>
+          <div>
+            <img id="img2_4" src="" alt="Image 2" />
+            <div class="image-label">Image 2</div>
+          </div>
+        </div>
+        <fieldset>
+          <legend>Which image is AI-generated?</legend>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="aiSelection_4" value="img1" required /> Image 1
+            </label>
+            <label>
+              <input type="radio" name="aiSelection_4" value="img2" /> Image 2
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="quality-scale">
+          <legend>Rate the quality of the selected AI-generated image:</legend>
+          <div class="quality-labels">
+            <span>Obviously AI-generated</span>
+            <span>Close to Real</span>
+          </div>
+          <div class="quality-buttons">
+            <button type="button" data-quality="1">1</button>
+            <button type="button" data-quality="2">2</button>
+            <button type="button" data-quality="3">3</button>
+            <button type="button" data-quality="4">4</button>
+            <button type="button" data-quality="5">5</button>
+          </div>
+          <input type="hidden" name="quality_4" required />
+        </fieldset>
+      </div>
+      
+      <hr class="separator" />
 
-                const annotationContainer = document.getElementById('annotations');
+      <!-- Annotation Task 5 -->
+      <div class="annotation-task" data-index="5">
+        <div class="images">
+          <div>
+            <img id="img1_5" src="" alt="Image 1" />
+            <div class="image-label">Image 1</div>
+          </div>
+          <div>
+            <img id="img2_5" src="" alt="Image 2" />
+            <div class="image-label">Image 2</div>
+          </div>
+        </div>
+        <fieldset>
+          <legend>Which image is AI-generated?</legend>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="aiSelection_5" value="img1" required /> Image 1
+            </label>
+            <label>
+              <input type="radio" name="aiSelection_5" value="img2" /> Image 2
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="quality-scale">
+          <legend>Rate the quality of the selected AI-generated image:</legend>
+          <div class="quality-labels">
+            <span>Obviously AI-generated</span>
+            <span>Close to Real</span>
+          </div>
+          <div class="quality-buttons">
+            <button type="button" data-quality="1">1</button>
+            <button type="button" data-quality="2">2</button>
+            <button type="button" data-quality="3">3</button>
+            <button type="button" data-quality="4">4</button>
+            <button type="button" data-quality="5">5</button>
+          </div>
+          <input type="hidden" name="quality_5" required />
+        </fieldset>
+      </div>
+      
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 
-                for (let i = 1; i <= 5; i++) {
-                    // Randomly select images for this annotation set
-                    const realImage = realImages[Math.floor(Math.random() * realImages.length)];
-                    const fakeImage = fakeImages[Math.floor(Math.random() * fakeImages.length)];
-                    
-                    // Randomize which image goes on the left/right
-                    const [image1, image2] = Math.random() > 0.5 ? [realImage, fakeImage] : [fakeImage, realImage];
-
-                    const annotationHTML = `
-                        <div class="annotation-set">
-                            <div class="images">
-                                <div>
-                                    <img id="img1-${i}" src="/real_fake_images/real/${image1}" alt="Image 1">
-                                    <div class="image-label">Image 1</div>
-                                </div>
-                                <div>
-                                    <img id="img2-${i}" src="/real_fake_images/fake/${image2}" alt="Image 2">
-                                    <div class="image-label">Image 2</div>
-                                </div>
-                            </div>
-                            <hr class="separator">
-                            <fieldset>
-                                <legend>Which image is AI-generated?</legend>
-                                <div class="radio-group">
-                                    <label><input type="radio" name="aiSelection-${i}" value="img1" required> Image 1</label>
-                                    <label><input type="radio" name="aiSelection-${i}" value="img2"> Image 2</label>
-                                </div>
-                            </fieldset>
-                            
-                            <fieldset class="quality-scale">
-                                <legend>Rate the quality of the selected AI-generated image:</legend>
-                                <div class="quality-labels">
-                                    <span>Obviously AI-generated</span>
-                                    <span>Close to Real</span>
-                                </div>
-                                <div class="quality-buttons">
-                                    <button type="button" data-quality="1" data-set="${i}">1</button>
-                                    <button type="button" data-quality="2" data-set="${i}">2</button>
-                                    <button type="button" data-quality="3" data-set="${i}">3</button>
-                                    <button type="button" data-quality="4" data-set="${i}">4</button>
-                                    <button type="button" data-quality="5" data-set="${i}">5</button>
-                                </div>
-                                <input type="hidden" name="quality-${i}" id="qualityValue-${i}" required>
-                            </fieldset>
-                        </div>
-                    `;
-                    annotationContainer.innerHTML += annotationHTML;
-                }
-
-                // Add event listeners to all quality rating buttons
-                document.querySelectorAll('.quality-buttons button').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const setId = this.getAttribute('data-set');
-                        document.querySelectorAll(`[data-set="${setId}"]`).forEach(btn => btn.classList.remove('selected'));
-                        this.classList.add('selected');
-                        document.getElementById(`qualityValue-${setId}`).value = this.getAttribute('data-quality');
-                    });
-                });
-
-            } catch (error) {
-                console.error('Error loading images:', error);
-                alert('Failed to load images. Please try again later.');
-            }
+  <script>
+    // Load images for each annotation task
+    document.addEventListener('DOMContentLoaded', async function () {
+      try {
+        const response = await fetch('/get-images');
+        const data = await response.json();
+        const realImages = data.real_images;
+        const fakeImages = data.fake_images;
+        
+        // For each annotation task (1 through 5)
+        for (let i = 1; i <= 5; i++) {
+          // Randomly select one real and one fake image for this task
+          const randomRealImage = realImages[Math.floor(Math.random() * realImages.length)];
+          const randomFakeImage = fakeImages[Math.floor(Math.random() * fakeImages.length)];
+  
+          const img1 = document.getElementById(`img1_${i}`);
+          const img2 = document.getElementById(`img2_${i}`);
+  
+          // Randomly decide which image slot gets the real image
+          if (Math.random() > 0.5) {
+            img1.src = `/real_fake_images/real/${randomRealImage}`;
+            img2.src = `/real_fake_images/fake/${randomFakeImage}`;
+          } else {
+            img2.src = `/real_fake_images/real/${randomRealImage}`;
+            img1.src = `/real_fake_images/fake/${randomFakeImage}`;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading images:', error);
+        alert('Failed to load images. Please try again later.');
+      }
+    });
+    
+    // Attach event listeners to all quality buttons
+    document.querySelectorAll('.quality-buttons button').forEach(button => {
+      button.addEventListener('click', function () {
+        // Within the same quality-scale fieldset, clear any previously selected button
+        const qualityContainer = this.closest('.quality-scale');
+        qualityContainer.querySelectorAll('.quality-buttons button').forEach(btn => btn.classList.remove('selected'));
+  
+        // Mark this button as selected and update the corresponding hidden input
+        this.classList.add('selected');
+        qualityContainer.querySelector('input[type="hidden"]').value = this.getAttribute('data-quality');
+      });
+    });
+    
+    // Handle form submission: Gather all five annotations and submit together
+    document.getElementById('annotationForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+  
+      const annotations = [];
+  
+      for (let i = 1; i <= 5; i++) {
+        const selectedRadio = document.querySelector(`input[name="aiSelection_${i}"]:checked`);
+        const qualityInput = document.querySelector(`input[name="quality_${i}"]`);
+        const img1 = document.getElementById(`img1_${i}`);
+        const img2 = document.getElementById(`img2_${i}`);
+  
+        if (!selectedRadio) {
+          alert(`Please select which image is AI-generated for annotation ${i}.`);
+          return;
+        }
+  
+        if (!qualityInput.value) {
+          alert(`Please rate the quality for annotation ${i}.`);
+          return;
+        }
+  
+        // Extract file names from the image URLs (adjust if needed)
+        const image1Name = img1.src.split('/').pop();
+        const image2Name = img2.src.split('/').pop();
+  
+        annotations.push({
+          aiSelection: selectedRadio.value, // "img1" or "img2"
+          quality: qualityInput.value,
+          image1: image1Name,
+          image2: image2Name
         });
-
-        // Handle form submission
-        document.getElementById('annotationForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
-
-            // Collect data for all 5 annotation sets
-            const formData = {};
-            for (let i = 1; i <= 5; i++) {
-                const selection = document.querySelector(`input[name="aiSelection-${i}"]:checked`);
-                const quality = document.getElementById(`qualityValue-${i}`).value;
-
-                if (!selection || !quality) {
-                    alert(`Please complete annotation set ${i} before submitting.`);
-                    return;
-                }
-
-                formData[`annotation-${i}`] = {
-                    aiSelection: selection.value,
-                    quality: quality,
-                    image1: document.getElementById(`img1-${i}`).src.split('/').pop(),
-                    image2: document.getElementById(`img2-${i}`).src.split('/').pop()
-                };
-            }
-
-            try {
-                const response = await fetch('/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    window.location.href = 'thanks.html';
-                } else {
-                    alert('Submission failed. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error submitting data:', error);
-                alert('An error occurred. Please try again.');
-            }
+      }
+  
+      // Prepare data to be sent (here, as an object with an array of annotations)
+      const data = { annotations };
+  
+      try {
+        const response = await fetch('/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
         });
-    </script>
+  
+        if (response.ok) {
+          window.location.href = 'thanks.html';
+        } else {
+          alert('Submission failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error submitting data:', error);
+        alert('An error occurred. Please try again.');
+      }
+    });
+  </script>
 </body>
 </html>
