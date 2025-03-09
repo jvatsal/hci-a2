@@ -8,6 +8,11 @@ app = Flask(__name__, static_folder='static')
 CORS(app)
 
 DATABASE_URL = os.getenv('DATABASE_URL')
+
+# Ensure SSL mode is required for Neon.tech
+if DATABASE_URL and "sslmode=" not in DATABASE_URL:
+    DATABASE_URL += "?sslmode=require"
+
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
