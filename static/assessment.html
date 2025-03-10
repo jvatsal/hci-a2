@@ -4,58 +4,51 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-
-button[type="submit"] {
-  padding: 15px 30px; /* Increase padding for larger size */
-  font-size: 18px; /* Larger text */
-  font-weight: bold; /* Bold text for emphasis */
-  background-color: #e27500; /* Add a nice background color */
-  color: white; /* White text for contrast */
-  border: none; /* Remove borders for a cleaner look */
-  border-radius: 8px; /* Add rounded corners */
-  cursor: pointer; /* Show pointer on hover */
-  transition: background-color 0.3s ease; /* Smooth hover effect */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: block;
-margin: 20px auto;
-}
-
-button[type="submit"]:hover {
-  transform: scale(1.05);
-  background-color: #e2ab6f; /* Darker blue on hover */
-}
-
+    button[type="submit"] {
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #e27500;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: block;
+      margin: 20px auto;
+    }
+    button[type="submit"]:hover {
+      transform: scale(1.05);
+      background-color: #e2ab6f;
+    }
     .quality-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.quality-buttons button {
-  padding: 12px 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px; /* Rounded corners */
-  cursor: pointer;
-  font-size: 14px;
-  font-family: Verdana, sans-serif;
-  flex: 1;
-  margin: 0 8px; /* Space between buttons */
-  background-color: #f9f9f9; /* Light gray background */
-  transition: all 0.2s ease-in-out;
-}
-
-.quality-buttons button:hover {
-  background-color: #e27500; /* Orange on hover */
-  color: white; /* White text */
-  border-color: #e27500;
-}
-
-.quality-buttons button.selected {
-  background-color: #007acc; /* Blue for selected state */
-  color: white; /* White text */
-  border-color: #007acc;
-}
-
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .quality-buttons button {
+      padding: 12px 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: Verdana, sans-serif;
+      flex: 1;
+      margin: 0 8px;
+      background-color: #f9f9f9;
+      transition: all 0.2s ease-in-out;
+    }
+    .quality-buttons button:hover {
+      background-color: #e27500;
+      color: white;
+      border-color: #e27500;
+    }
+    .quality-buttons button.selected {
+      background-color: #007acc;
+      color: white;
+      border-color: #007acc;
+    }
     body {
       font-family: Verdana, sans-serif;
       margin: 20px;
@@ -115,39 +108,19 @@ button[type="submit"]:hover {
       font-size: 14px;
       color: #666;
     }
-    .quality-buttons {
-      display: flex;
-      justify-content: space-between;
-    }
-    .quality-buttons button {
-      padding: 10px 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      flex: 1;
-      margin: 0 5px;
-    }
-    .quality-buttons button.selected {
-      background-color: #e27500;
-      color: white;
-    }
     .instructions {
-  text-align: center;
-  margin-bottom: 30px;
-  padding: 20px; /* Adds spacing inside the box */
-  border: 2px solid #ccc; /* Creates a border around the box */
-  border-radius: 10px; /* Rounds the edges */
-  background-color: #f9f9f9; /* Light background color */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-}
-
-
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
     .instructions h1 {
       font-size: 24px;
       margin-bottom: 10px;
     }
-
     .instructions p {
       font-size: 16px;
     }
@@ -160,6 +133,7 @@ button[type="submit"]:hover {
       <p>You will be presented with two images. Your task is to select which image you think is AI-generated. For the image you select, rate its quality on a scale of 1 to 5 based on how realistic it appears to you.</p>
     </div>
     <form id="annotationForm">
+      <!-- Annotation Task 1 -->
       <div class="annotation-task" data-index="1">
         <div class="images">
           <div>
@@ -171,6 +145,8 @@ button[type="submit"]:hover {
             <div class="image-label">Image 2</div>
           </div>
         </div>
+        <!-- Prediction element for task 1 -->
+        <div id="aiPrediction_1">AI prediction will appear here...</div>
         <fieldset>
           <legend>Which image is AI-generated?</legend>
           <div class="radio-group">
@@ -213,6 +189,8 @@ button[type="submit"]:hover {
             <div class="image-label">Image 2</div>
           </div>
         </div>
+        <!-- Prediction element for task 2 -->
+        <div id="aiPrediction_2">AI prediction will appear here...</div>
         <fieldset>
           <legend>Which image is AI-generated?</legend>
           <div class="radio-group">
@@ -255,6 +233,8 @@ button[type="submit"]:hover {
             <div class="image-label">Image 2</div>
           </div>
         </div>
+        <!-- Prediction element for task 3 -->
+        <div id="aiPrediction_3">AI prediction will appear here...</div>
         <fieldset>
           <legend>Which image is AI-generated?</legend>
           <div class="radio-group">
@@ -297,6 +277,8 @@ button[type="submit"]:hover {
             <div class="image-label">Image 2</div>
           </div>
         </div>
+        <!-- Prediction element for task 4 -->
+        <div id="aiPrediction_4">AI prediction will appear here...</div>
         <fieldset>
           <legend>Which image is AI-generated?</legend>
           <div class="radio-group">
@@ -339,6 +321,8 @@ button[type="submit"]:hover {
             <div class="image-label">Image 2</div>
           </div>
         </div>
+        <!-- Prediction element for task 5 -->
+        <div id="aiPrediction_5">AI prediction will appear here...</div>
         <fieldset>
           <legend>Which image is AI-generated?</legend>
           <div class="radio-group">
@@ -372,7 +356,25 @@ button[type="submit"]:hover {
   </div>
 
   <script>
-    // Load images for each annotation task
+    // Updated prediction function that accepts a prediction element ID.
+    function updateAIPrediction(image1, folder1, image2, folder2, predictionElementId) {
+      fetch('/predict', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ image1: image1, folder1: folder1, image2: image2, folder2: folder2 })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.prediction && data.confidence !== undefined) {
+          const predictionText = data.prediction === 'img1' ? 'Image 1' : 'Image 2';
+          document.getElementById(predictionElementId).innerText =
+            `AI thinks ${predictionText} is real (Confidence: ${(data.confidence * 100).toFixed(1)}%)`;
+        }
+      })
+      .catch(err => console.error('Error:', err));
+    }
+    
+    // Load images and update prediction for each annotation task
     document.addEventListener('DOMContentLoaded', async function () {
       try {
         const response = await fetch('/get-images');
@@ -388,15 +390,26 @@ button[type="submit"]:hover {
   
           const img1 = document.getElementById(`img1_${i}`);
           const img2 = document.getElementById(`img2_${i}`);
-  
+          
+          let folder1, folder2, image1Name, image2Name;
           // Randomly decide which image slot gets the real image
           if (Math.random() > 0.5) {
             img1.src = `/real_fake_images/real/${randomRealImage}`;
             img2.src = `/real_fake_images/fake/${randomFakeImage}`;
+            folder1 = 'real';
+            folder2 = 'fake';
+            image1Name = randomRealImage;
+            image2Name = randomFakeImage;
           } else {
-            img2.src = `/real_fake_images/real/${randomRealImage}`;
             img1.src = `/real_fake_images/fake/${randomFakeImage}`;
+            img2.src = `/real_fake_images/real/${randomRealImage}`;
+            folder1 = 'fake';
+            folder2 = 'real';
+            image1Name = randomFakeImage;
+            image2Name = randomRealImage;
           }
+          // Call updateAIPrediction for this task using the dedicated prediction element
+          updateAIPrediction(image1Name, folder1, image2Name, folder2, `aiPrediction_${i}`);
         }
       } catch (error) {
         console.error('Error loading images:', error);
@@ -407,22 +420,17 @@ button[type="submit"]:hover {
     // Attach event listeners to all quality buttons
     document.querySelectorAll('.quality-buttons button').forEach(button => {
       button.addEventListener('click', function () {
-        // Within the same quality-scale fieldset, clear any previously selected button
         const qualityContainer = this.closest('.quality-scale');
         qualityContainer.querySelectorAll('.quality-buttons button').forEach(btn => btn.classList.remove('selected'));
-  
-        // Mark this button as selected and update the corresponding hidden input
         this.classList.add('selected');
         qualityContainer.querySelector('input[type="hidden"]').value = this.getAttribute('data-quality');
       });
     });
     
-    // Handle form submission: Gather all five annotations and submit together
+    // Handle form submission: Gather annotations from each task and submit them together.
     document.getElementById('annotationForm').addEventListener('submit', async function (event) {
       event.preventDefault();
-  
       const annotations = [];
-  
       for (let i = 1; i <= 5; i++) {
         const selectedRadio = document.querySelector(`input[name="aiSelection_${i}"]:checked`);
         const qualityInput = document.querySelector(`input[name="quality_${i}"]`);
@@ -439,7 +447,7 @@ button[type="submit"]:hover {
           return;
         }
   
-        // Extract file names from the image URLs (adjust if needed)
+        // Extract file names from the image URLs
         const image1Name = img1.src.split('/').pop();
         const image2Name = img2.src.split('/').pop();
   
@@ -451,7 +459,6 @@ button[type="submit"]:hover {
         });
       }
   
-      // Prepare data to be sent (here, as an object with an array of annotations)
       const data = { annotations };
   
       try {
